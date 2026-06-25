@@ -104,7 +104,7 @@ graph TD
    git add .
    git commit -m "Initial commit: support-triage ADK agent"
    git branch -M main
-   git remote add origin https://github.com/<your-username>/support-triage.git
+   git remote add origin https://github.com/fatima-muzafar/support-triage.git
    git push -u origin main
    ```
 
