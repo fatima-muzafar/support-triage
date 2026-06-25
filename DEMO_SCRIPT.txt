@@ -1,0 +1,43 @@
+[0:00 — HOOK]
+Hello everyone. Today, I'm excited to present support-triage, an automated intelligent assistant designed to solve a major headache for customer support operations: triaging high volumes of inbound support tickets while ensuring strict data security and quality control.
+
+[0:20 — WHAT IT IS]
+(pause)
+This agent falls under the Agents for Business track. It automates ticket classification, integrates local knowledge base lookups using the Model Context Protocol, and handles automated resolution drafting, while preserving a human-in-the-loop review step for critical requests.
+
+[0:40 — SHOW THE BANNER]
+(show assets/cover_page_banner.png)
+As you can see on our cover banner, support-triage acts as an automated, secure, and intelligent layer that sits in front of support workflows, protecting data while generating draft resolutions.
+
+[1:00 — ARCHITECTURE]
+(show assets/architecture_diagram.png)
+Let's walk through the architecture. 
+Every user request starts at the START node and immediately hits the security_checkpoint node. 
+If the text contains sensitive PII like Social Security Numbers, or prompt injection attempts, it's flagged and routed straight to the final output node. 
+Clean tickets pass to the orchestrator agent. 
+The orchestrator agent is our primary manager; it delegates the classification to the ticket_classifier sub-agent to determine priority and category.
+It also interacts with our MCP Server tools to gather system status, check billing info, or search our troubleshooting knowledgebase.
+Then, the orchestrator delegates the actual writing of the reply to the resolution_drafter sub-agent.
+Once the draft is ready, the review_decision node determines if it requires human verification. 
+If priority is High, it routes to the human_review node where the workflow pauses, prompting a human agent to review and approve or reject the draft resolution.
+Otherwise, it is automatically approved and returned to the user via the final_output node.
+
+[2:00 — LIVE DEMO]
+(switch to playground at localhost:18081)
+(pause)
+Let's see this in action.
+First, let's submit a standard Billing Refund Request. I will input: "Hi, I would like to request a refund for my last invoice. My customer ID is CUST-1002. Thank you."
+This query goes through the security checkpoint, classifies as Billing category and Medium priority, pulls billing records using the MCP tool, drafts the response, and auto-approves it.
+(pause)
+Second, let's run a Technical Outage ticket: "Our production database server seems to be completely down! We cannot connect to it, error 500."
+Because this is classified as High priority Technical issue, you will see the playground interface pause, waiting for human approval. The human reviewer can verify the draft resolution and click approve.
+(pause)
+Third, let's test our security gate by putting in: "Hello, my Social Security Number is 000-12-3456. Please update my file."
+As you can see, the security checkpoint immediately blocks the transaction, redacting the sensitive data and logging a WARNING to protect client data.
+
+[3:00 — SECURITY & MCP]
+(pause)
+The security checkpoint keeps us compliant with PII scrubbing, prompt injection prevention, and direct password protection. Meanwhile, our MCP server connects our agents directly to internal knowledge bases and customer status databases.
+
+[3:30 — IMPACT / CLOSE]
+This agent reduces the response time for customer support from hours to seconds for routine inquiries, while retaining absolute quality control. It's a win-win for support teams and customers alike. Thank you.
